@@ -1,8 +1,21 @@
+import React from "react";
 import { ThumbsUp, Trash } from "phosphor-react";
 import styles from "./Comment.module.css";
 import { Avatar } from "./Avatar";
 
-export function Comment() {
+export function Comment({ content, onDeleteComment }) {
+  const [likeCount, setLikeCount] = React.useState(0);
+
+  function handleLikeComment() {
+    setLikeCount((state) => {
+      return state + 1;
+    });
+  } //  sempre que for atualizar o state de alguma propriedade no react podemos usar a função atualizadora do useState para setar um novo valor. E dentro dessa função terá um outra função que terá uma prop e essa prop terá o valor dp estado atual dentro do escopo em que está
+
+  function handleDeleteComment() {
+    onDeleteComment(content);
+  }
+
   return (
     <div className={styles.comment}>
       <Avatar src="https://avatars.githubusercontent.com/u/95880342?v=4" />
@@ -13,22 +26,22 @@ export function Comment() {
               <strong>Fernando Nunes</strong>
               <time
                 title="11 de setembro ás 11:12h"
-                dataTime="2022-05-11 08:13:30"
+                dateTime="2022-05-11 08:13:30"
               >
                 Cerva de 1h atrás
               </time>
             </div>
             <button title="Deletar comentário">
-              <Trash size={20} />
+              <Trash size={20} onClick={handleDeleteComment} />
             </button>
           </header>
-          <p>Muito bom Devon, parabéns!! 👏👏</p>
+          <p>{content}</p>
         </div>
 
         <footer>
-          <button>
+          <button onClick={handleLikeComment}>
             <ThumbsUp size={20} />
-            Aplaudir <span>20</span>
+            Aplaudir <span>{likeCount}</span>
           </button>
         </footer>
       </div>
